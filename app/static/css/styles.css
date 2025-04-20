@@ -1,3 +1,10 @@
+@font-face {
+    font-family: 'TheFont';
+    src: url("https://garet.typeforward.com/assets/fonts/shared/TFMixVF.woff2") format('woff2');
+}
+
+
+
 /* Base styles and colors */
 :root {
     --primary-blue: #1a73e8;      /* WakeMate brand blue */
@@ -66,6 +73,24 @@ nav ul li a:hover {
     background-color: var(--background-gray);
 }
 
+.hero-title {
+    font-family: 'TheFont';
+    font-size: 48px;
+    font-weight: bold;
+    color: #222;
+    animation: letter-breathe 3s ease-in-out infinite;
+}
+
+@keyframes letter-breathe {
+    from,
+    to {
+        font-variation-settings: 'wght' 100;
+    }
+    50% {
+        font-variation-settings: 'wght' 900;
+    }
+}
+
 .hero h2 {
     font-size: 36px;
     font-weight: bold;
@@ -75,7 +100,8 @@ nav ul li a:hover {
 .hero p {
     font-size: 18px;
     margin-bottom: 30px;
-}
+    color: var(--text-dark);
+  }  
 
 .hero-buttons .button {
     display: inline-block;

@@ -1,0 +1,216 @@
+/* ====== Base Variables and Colors ====== */
+:root {
+    --primary-blue: #1a73e8;
+    --text-dark: #333333;
+    --text-gray: #5f6368;
+    --background-light: #ffffff;
+    --background-gray: #f8f9fa;
+    --border-light: #e0e0e0;
+  }
+  
+  /* ====== Global Styles ====== */
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: var(--text-dark);
+    background-color: var(--background-light);
+  }
+  
+  /* ====== Layout Container ====== */
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+  
+  /* ====== Navbar (matches landing page) ====== */
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    border-bottom: 1px solid var(--border-light);
+    background-color: var(--background-light);
+  }
+  
+  header h1 a {
+    color: var(--primary-blue);
+    font-weight: 400;
+    font-size: 24px;
+    text-decoration: none;
+  }
+  
+  header h1 a:hover {
+    color: var(--text-dark);
+    transition: color 0.3s ease;
+  }
+  
+  nav ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  nav ul li {
+    margin-left: 30px;
+  }
+  
+  nav ul li a {
+    text-decoration: none;
+    color: var(--text-gray);
+    font-size: 14px;
+  }
+  
+  nav ul li a:hover {
+    color: var(--primary-blue);
+    transition: color 0.3s ease;
+  }
+  
+  /* ====== Hero Section ====== */
+  .hero-section {
+    text-align: center;
+    padding: 3rem 0;
+  }
+  
+  .hero-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .lead {
+    font-size: 1.1rem;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  
+  /* ====== Info Sections ====== */
+  .info-section {
+    margin-top: 3rem;
+  }
+  
+  .info-section h3 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+  
+  .card-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-top: 1rem;
+  }
+  
+  .info-card {
+    flex: 1;
+    min-width: 250px;
+    padding: 1.5rem;
+    border: 1px solid var(--border-light);
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  }
+  
+  .info-card h4 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .info-card p {
+    font-size: 15px;
+    color: var(--text-gray);
+  }
+
+
+  /* ====== How It Works: Image Grid ====== */
+.how-images {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+  }
+  
+  .how-images img {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
+  
+  .how-images img:hover {
+    transform: scale(1.03);
+  }
+  
+
+  
+  /* ====== Buttons ====== */
+  .cta-buttons {
+    margin: 2rem 0;
+    text-align: center;
+  }
+  
+  .btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    margin: 0.5rem;
+    font-size: 14px;
+  }
+  
+  .btn-primary {
+    background-color: var(--primary-blue);
+    color: white;
+  }
+  
+  .btn-primary:hover {
+    background-color: #1558b0;
+  }
+  
+  .btn-secondary {
+    background-color: #e8e8e8;
+    color: #333;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #d5d5d5;
+  }
+
+
+
+  /* ====== Logo in Hero Section ====== */
+  .about-logo {
+    margin: 1.5rem auto 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  
+  .about-logo img {
+    width: 400px;       /* Adjust this as needed */
+    height: auto;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  }  
+  
+
+
+  
+  /* ====== Footer ====== */
+  .footer {
+    text-align: center;
+    padding: 2rem 0;
+    background-color: var(--background-light);
+    border-top: 1px solid var(--border-light);
+    margin-top: 3rem;
+    font-size: 14px;
+    color: var(--text-gray);
+  }
+  
