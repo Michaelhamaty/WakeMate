@@ -3,13 +3,68 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Demo</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/styles.css') }}"
+    />
+    <title>WakeMate Demo</title>
+    <style>
+      /* Center all text content within the body */
+      body {
+        text-align: center;
+      }
+      /* Adjust nav items for horizontal layout and centering */
+      nav ul {
+        padding: 0; /* Remove default padding */
+        list-style: none; /* Remove default list bullets */
+      }
+      nav ul li {
+        display: inline-block; /* Display items horizontally */
+        margin: 0 10px; /* Add spacing between items */
+      }
+      /* Ensure the video container itself doesn't override centering */
+      .video-container {
+        /* text-align: center; /* Inherited from body */
+        margin-top: 20px;
+      }
+      /* Optional: If image needs explicit block centering */
+      /* .video-container img { */
+      /*   display: block; */
+      /*   margin-left: auto; */
+      /*   margin-right: auto; */
+      /* } */
+    </style>
   </head>
   <body>
-    <div class="container">
-      <h1>WakeMate Demo</h1>
-      <!-- no stray comma, width can be adjusted as you like -->
-      <img src="{{ url_for('video_feed') }}" width="50%" />
-    </div>
+    <header>
+      <h1><a href="/">WakeMate</a></h1>
+      <nav>
+        <ul>
+          <li><a href="/#features">Features</a></li>
+          <li><a href="/#how-it-works">How It Works</a></li>
+          <li><a href="/#benefits">Benefits</a></li>
+          <li><a href="{{url_for ('demo')}}">Try Demo</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section class="demo-section">
+        <h2>WakeMate Demo</h2>
+        <p>
+          See WakeMate in action. The video feed below simulates the real-time
+          drowsiness detection.
+        </p>
+        <div class="video-container">
+          <!-- Adjust width as needed, consider using CSS for better control -->
+          <img src="{{ url_for('video_feed') }}" width="50%" />
+          <!-- You might want to add status indicators or controls here -->
+        </div>
+        <!-- Removed inline style, centering handled by body style -->
+        <p style="margin-top: 20px">
+          <a href="/" class="button">Back to Home</a>
+        </p>
+      </section>
+    </main>
   </body>
 </html>

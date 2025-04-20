@@ -58,4 +58,29 @@ WakeMate was developed in multiple stages:
 
 ## 🚀 Getting Started
 
-`
+1.  **Create a virtual environment:**
+
+    ```bash
+    python -m venv .venv
+    ```
+
+2.  **Activate the virtual environment:**
+
+    - On **Windows (Command Prompt)**:
+      ```bash
+      .\.venv\Scripts\activate
+      ```
+    - On **Windows (PowerShell)**:
+      ```powershell
+      .\.venv\Scripts\Activate.ps1
+      ```
+      (You might need to set the execution policy: `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process`)
+    - On **macOS/Linux (bash/zsh)**:
+      ```bash
+      source .venv/bin/activate
+      ```
+
+3.  **Install dependencies:**
+    ```bash
+    pip install -r requirements.txt
+    ```
