@@ -1,0 +1,235 @@
+/* Base styles and colors */
+:root {
+    --primary-blue: #1a73e8;      /* WakeMate brand blue */
+    --text-dark: #333333;         /* Main text color */
+    --text-gray: #5f6368;         /* Secondary text */
+    --background-light: #ffffff;  /* Main background */
+    --background-gray: #f8f9fa;   /* Feature section background */
+    --border-light: #e0e0e0;      /* Light borders */
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: var(--text-dark);
+    background-color: var(--background-light);
+}
+
+/* Header styles */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    border-bottom: 1px solid var(--border-light);
+}
+
+h1 a {
+    color: var(--primary-blue);
+    font-weight: 400;
+    margin: 0;
+    text-decoration: none;
+}
+
+h1 a:hover {
+    color: var(--text-dark); /* Change color on hover */
+    transition: color 0.3s ease; /* Smooth transition */
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    margin-left: 30px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: var(--text-gray);
+    font-size: 14px;
+}
+
+nav ul li a:hover {
+    color: var(--primary-blue); /* Change text color on hover */
+    transition: color 0.3s ease; /* Smooth transition */
+}
+
+/* Hero section styles */
+.hero {
+    text-align: center;
+    padding: 50px 20px;
+    background-color: var(--background-gray);
+}
+
+.hero h2 {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+.hero-buttons .button {
+    display: inline-block;
+    margin: 0 10px;
+    padding: 10px 20px;
+    background-color: var(--primary-blue);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+/* Features section styles */
+.features {
+    padding: 50px 20px;
+}
+
+.features h2 {
+    text-align: center;
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.feature-list {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.feature {
+    max-width: 300px;
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 20px;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.feature:hover {
+    transform: scale(1.05);
+}
+
+.feature h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.feature p {
+    font-size: 16px;
+    color: var(--text-gray);
+}
+
+.how-it-works {
+    padding: 50px 20px;
+    background-color: var(--background-light);
+}
+
+.how-it-works h2 {
+    text-align: center;
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.steps {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.step {
+    max-width: 220px;
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 40px 20px 20px;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+    position: relative;
+    box-shadow: 0 4px 8px rgba(26, 115, 232, 0.1); /* Faint blue shadow */
+}
+
+.step-number {
+    width: 40px;
+    height: 40px;
+    background-color: var(--primary-blue);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-weight: bold;
+}
+
+.step:hover {
+    transform: scale(1.05);
+}
+
+.step h3 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 50px;
+}
+
+.step p {
+    font-size: 16px;
+    color: var(--text-gray);
+    margin-top: 15px;
+}
+
+.why-choose-wakemate {
+    padding: 50px 20px;
+    background-color: var(--background-light);
+}
+
+.why-choose-wakemate h2 {
+    text-align: center;
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.benefits {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.benefit {
+    max-width: 220px;
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 20px;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.benefit:hover {
+    transform: scale(1.05);
+}
+
+.benefit h3 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.benefit p {
+    font-size: 16px;
+    color: var(--text-gray);
+}
