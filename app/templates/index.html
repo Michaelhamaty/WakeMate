@@ -6,6 +6,7 @@
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/styles.css') }}"
+      href="https://fonts.googleapis.com/css2?family=Satisfy&display=swap" rel="stylesheet"
     />
     <title>WakeMate</title>
   </head>
@@ -14,9 +15,9 @@
       <h1><a href="/">WakeMate</a></h1>
       <nav>
         <ul>
-          <li><a href="#features">Features</a></li>
+          <li><a href="/about">About</a></li>
           <li><a href="#how-it-works">How It Works</a></li>
-          <li><a href="#benefits">Benefits</a></li>
+          <li><a href="#why-choose-wakemate">Benefits</a></li>
           <li><a href="{{url_for ('demo')}}">Try Demo</a></li>
         </ul>
       </nav>
@@ -25,9 +26,12 @@
     <main>
       <section class="hero">
         <h2>Stay Alert. Stay Safe.</h2>
+        <h1 class="hero-title">
+          <span>WakeMate</span>
+        </h1>
         <p>
-          WakeMate uses AI and computer vision to detect drowsiness in
-          real-time, keeping drivers alert and preventing accidents before they
+          WakeMate uses <strong>AI</strong> and <strong>computer vision</strong> to detect drowsiness in
+          real-time, keeping drivers alert and <strong>preventing accidents</strong> before they
           happen.
         </p>
         <div class="hero-buttons">
@@ -40,9 +44,9 @@
         <h2>Key Features</h2>
         <div class="feature-list">
           <div class="feature">
-            <h3>Real-time Eye Tracking</h3>
+            <h3>Real-time Facial Tracking</h3>
             <p>
-              Advanced computer vision monitors eye states continuously to
+              Advanced computer vision monitors facial states continuously to
               detect early signs of fatigue
             </p>
           </div>
@@ -100,7 +104,7 @@
       </section>
 
       <section id="why-choose-wakemate" class="why-choose-wakemate">
-        <h2>Why Choose WakeMate</h2>
+        <h2>Benefits of WakeMate</h2>
         <div class="benefits">
           <div class="benefit">
             <h3>Prevent Accidents</h3>

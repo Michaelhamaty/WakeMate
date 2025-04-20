@@ -1,14 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    <title>About WakeMate</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}" />
+  <title>About WakeMate</title>
 </head>
 <body>
-    <h1>About WakeMate</h1>
-    <p>Information about our company and mission.</p>
-    <a href="/">Back to Home</a>
+
+  <!-- NAVIGATION BAR -->
+  <header>
+    <h1><a href="/">WakeMate</a></h1>
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="#how-it-works">How It Works</a></li>
+        <li><a href="#benefits">Benefits</a></li>
+        <li><a href="{{ url_for('demo') }}">Try Demo</a></li>
+      </ul>
+    </nav>
+  </header>
+  
+
+  <!-- MAIN CONTENT -->
+  <main class="about-page container">
+    <section class="hero-section">
+      <h2>About WakeMate</h2>
+      <div class="about-logo">
+        <img src="./static/css/images/wakeLogo.png" alt="WakeMate-Logo">
+      </div>
+      <p class="slogan">
+        <strong>"Fatigue Is Silent. WakeMate Speaks Up."</strong>
+      </p>
+      <p class="lead">
+        WakeMate is a smart, real-time AI drowsiness detection system designed to help drivers stay alert and safe. It uses computer vision and deep learning to monitor facial states and detect signs of fatigue using a standard webcam. Gemini and ElevenLabs API is utilzied to provide the user with dynamic conversational alerts and safety suggestions.
+      </p>
+    </section>
+
+    <section id="features" class="info-section">
+      <h3>Features</h3>
+      <div class="card-grid">
+        <div class="info-card">
+          <h4>Real-time Eye State Detection</h4>
+          <p>Advanced computer vision monitors eye states continuously to detect early signs of fatigue.</p>
+        </div>
+        <div class="info-card">
+          <h4>Instant Alerts</h4>
+          <p>Get real-time warnings when drowsiness is detected to prevent dangerous situations.</p>
+        </div>
+        <div class="info-card">
+          <h4>Personalized Training</h4>
+          <p>Use your own eye data to fine-tune the model for better performance across lighting and face types.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="how-it-works" class="info-section">
+      <h3>How It Works</h3>
+      <p>
+        WakeMate is an AI-powered real-time drowsiness detection system designed to prevent fatigue-related accidents by monitoring the driver's facial behavior using only a standard webcam. Built using OpenCV and Dlib, the system continuously detects and extracts facial regions via landmarks, preprocessing these frames before feeding them into our custom-trained Convolutional Neural Network (CNN) built with PyTorch. The CNN classifies whether the driver's eyes are open or closed and whether the driver is yawning, all in real time. If both eyes remain closed beyond a set threshold of consecutive frames, WakeMate flags the user as drowsy. What sets WakeMate apart is its intelligent alerting mechanism powered by Gemini and ElevenLabs APIs. Upon detecting drowsiness, Gemini generates a natural, context-aware voice prompt — such as suggesting a break, hydration, or music — which is then synthesized into speech using ElevenLabs and played back to the user. This creates a dynamic, human-like interaction designed to re-engage attention and encourage safer driving behavior. WakeMate was fine-tuned with real-user data for improved accuracy and is lightweight, privacy-conscious, and easily deployable.
+      </p>
+
+
+      <!-- Image Grid -->
+  <div class="how-images">
+    <img src="./static/css/images/open_demo.png" alt="Real-time eye detection" />
+    <img src="./static/css/images/closed_demo.png" alt="Drowsiness alert interface" />
+  </div>
+
+    </section>
+
+    <section id="benefits" class="info-section">
+        <h3>Benefits</h3>
+        <div class="card-grid">
+          <div class="info-card">
+            <h4>No Extra Hardware</h4>
+            <p>WakeMate works with just a webcam—no additional sensors or gadgets required!</p>
+          </div>
+          <div class="info-card">
+            <h4>Personalized Experience</h4>
+            <p>Implement further fine-tuning to match your unique facial and eye patterns for accurate detection.</p>
+          </div>
+          <div class="info-card">
+            <h4>Expandable & Flexible</h4>
+            <p>Integrates with voice agents such as ElevenLabs API and offers customizable alerts to suit your needs and preferences.</p>
+          </div>
+        </div>
+      </section>
+
+    <div class="cta-buttons">
+      <a href="/" class="btn btn-primary">Back to Home</a>
+      <a href="{{ url_for('demo') }}" class="btn btn-secondary">Try the Demo</a>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>© 2025 WakeMate. All rights reserved.</p>
+  </footer>
 </body>
 </html>
