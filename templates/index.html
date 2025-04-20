@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <title>WakeMate</title>
+</head>
+<body>
+    <header>
+        <h1><a href="/">WakeMate</a></h1>
+        <nav>
+            <ul>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#benefits">Benefits</a></li>
+                <li><a href="#try-demo">Try Demo</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <section class="hero">
+            <h2>Stay Alert. Stay Safe.</h2>
+            <p>WakeMate uses AI and computer vision to detect drowsiness in real-time, keeping drivers alert and preventing accidents before they happen.</p>
+            <div class="hero-buttons">
+                <a href="#try-demo" class="button">Try Demo</a>
+                <a href="/about" class="button">About Us</a>
+            </div>
+        </section>
+
+        <section id="features" class="features">
+            <h2>Key Features</h2>
+            <div class="feature-list">
+                <div class="feature">
+                    <h3>Real-time Eye Tracking</h3>
+                    <p>Advanced computer vision monitors eye states continuously to detect early signs of fatigue</p>
+                </div>
+                <div class="feature">
+                    <h3>Instant Alerts</h3>
+                    <p>Receive immediate audio alerts when drowsiness is detected to prevent dangerous situations</p>
+                </div>
+                <div class="feature">
+                    <h3>Performance Analytics</h3>
+                    <p>Track alertness patterns over time to identify high-risk periods and improve safety</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="how-it-works" class="how-it-works">
+            <h2>How WakeMate Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Setup Your Camera</h3>
+                    <p>Position your camera to clearly capture your face while driving</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>AI Detection</h3>
+                    <p>Our deep learning algorithms monitor your eye states and facial movements in real-time</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Early Warning</h3>
+                    <p>Receieve immediate alerts when signs of drowsiness are detected</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Stay Safe</h3>
+                    <p>Pull over safely when alerted and take a break before continuing your journey</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="why-choose-wakemate" class="why-choose-wakemate">
+            <h2>Why Choose WakeMate</h2>
+            <div class="benefits">
+                <div class="benefit">
+                    <h3>Prevent Accidents</h3>
+                    <p>Driver fatigue causes thousands of accidents yearly, WakeMate helps you stay alert and safe</p>
+                </div>
+                <div class="benefit">
+                    <h3>Easy to Use</h3>
+                    <p>Simply launch the app and drive, no complex setup or special equipment needed.</p>
+                </div>
+                <div class="benefit">
+                    <h3>Privacy First</h3>
+                    <p>All processing is done locally on your device, ensuring your data remains private and secure</p>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
