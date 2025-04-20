@@ -1,19 +1,21 @@
 /* Base styles and colors */
 :root {
-    --primary-blue: #1a73e8;      /* WakeMate brand blue */
-    --text-dark: #333333;         /* Main text color */
-    --text-gray: #5f6368;         /* Secondary text */
-    --background-light: #ffffff;  /* Main background */
-    --background-gray: #f8f9fa;   /* Feature section background */
-    --border-light: #e0e0e0;      /* Light borders */
+    --background-dark: #0B132B;    /* Dark navy background */
+    --accent-blue: #1C82AD;        /* Electric blue accent */
+    --support-gray: #6B7B8C;       /* Cool gray support color */
+    --cta-mint: #2EC4B6;           /* Bright mint for buttons */
+    --text-light: #ffffff;         /* Light text for dark background */
+    --text-muted: #BFC5D0;         /* Slightly muted light text */
+    --card-bg: #12214e;            /* Slightly lighter than background for cards */
+    --border-dark: #142050;        /* Border color for cards/elements */
 }
 
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    color: var(--text-dark);
-    background-color: var(--background-light);
+    color: var(--text-light);
+    background-color: var(--background-dark);
 }
 
 /* Header styles */
@@ -22,18 +24,19 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 15px 40px;
-    border-bottom: 1px solid var(--border-light);
+    border-bottom: 1px solid var(--border-dark);
+    background-color: rgba(11, 19, 43, 0.9); /* Slightly transparent header */
 }
 
 h1 a {
-    color: var(--primary-blue);
+    color: var(--accent-blue);
     font-weight: 400;
     margin: 0;
     text-decoration: none;
 }
 
 h1 a:hover {
-    color: var(--text-dark); /* Change color on hover */
+    color: var(--cta-mint); /* Change color on hover */
     transition: color 0.3s ease; /* Smooth transition */
 }
 
@@ -50,120 +53,146 @@ nav ul li {
 
 nav ul li a {
     text-decoration: none;
-    color: var(--text-gray);
+    color: var(--text-muted);
     font-size: 14px;
 }
 
 nav ul li a:hover {
-    color: var(--primary-blue); /* Change text color on hover */
+    color: var(--cta-mint); /* Change text color on hover */
     transition: color 0.3s ease; /* Smooth transition */
 }
 
 /* Hero section styles */
 .hero {
     text-align: center;
-    padding: 50px 20px;
-    background-color: var(--background-gray);
+    padding: 70px 20px;
+    background-color: var(--background-dark);
+    background-image: linear-gradient(to bottom, rgba(11, 19, 43, 0.9), rgba(28, 130, 173, 0.1));
 }
 
 .hero h2 {
     font-size: 36px;
     font-weight: bold;
     margin-bottom: 20px;
+    color: var(--text-light);
 }
 
 .hero p {
     font-size: 18px;
     margin-bottom: 30px;
+    color: var(--text-muted);
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .hero-buttons .button {
     display: inline-block;
     margin: 0 10px;
-    padding: 10px 20px;
-    background-color: var(--primary-blue);
-    color: #fff;
+    padding: 12px 24px;
+    background-color: var(--cta-mint);
+    color: var(--background-dark);
     text-decoration: none;
     border-radius: 5px;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(46, 196, 182, 0.3);
+    transition: all 0.3s ease;
+}
+
+.hero-buttons .button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(46, 196, 182, 0.4);
 }
 
 /* Features section styles */
 .features {
-    padding: 50px 20px;
+    padding: 60px 20px;
+    background-color: var(--background-dark);
 }
 
 .features h2 {
     text-align: center;
     font-size: 36px;
     font-weight: bold;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
+    color: var(--text-light);
 }
 
 .feature-list {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .feature {
     max-width: 300px;
     text-align: center;
-    margin-bottom: 20px;
-    padding: 20px;
-    border: 1px solid var(--border-light);
+    margin-bottom: 30px;
+    padding: 30px 20px;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-dark);
     border-radius: 8px;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .feature:hover {
     transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(28, 130, 173, 0.3);
 }
 
 .feature h3 {
     font-size: 24px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    color: var(--accent-blue);
 }
 
 .feature p {
     font-size: 16px;
-    color: var(--text-gray);
+    color: var(--text-muted);
 }
 
 .how-it-works {
-    padding: 50px 20px;
-    background-color: var(--background-light);
+    padding: 60px 20px;
+    background-color: var(--card-bg);
 }
 
 .how-it-works h2 {
     text-align: center;
     font-size: 36px;
     font-weight: bold;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
+    color: var(--text-light);
 }
 
 .steps {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .step {
     max-width: 220px;
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     padding: 40px 20px 20px;
-    border: 1px solid var(--border-light);
+    background-color: var(--background-dark);
+    border: 1px solid var(--border-dark);
     border-radius: 8px;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     position: relative;
-    box-shadow: 0 4px 8px rgba(26, 115, 232, 0.1); /* Faint blue shadow */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .step-number {
     width: 40px;
     height: 40px;
-    background-color: var(--primary-blue);
-    color: #fff;
+    background-color: var(--accent-blue);
+    color: var(--text-light);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -173,63 +202,96 @@ nav ul li a:hover {
     left: 50%;
     transform: translateX(-50%);
     font-weight: bold;
+    box-shadow: 0 2px 4px rgba(28, 130, 173, 0.4);
 }
 
 .step:hover {
     transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(28, 130, 173, 0.3);
 }
 
 .step h3 {
     font-size: 20px;
     font-weight: bold;
     margin-top: 50px;
+    color: var(--accent-blue);
 }
 
 .step p {
     font-size: 16px;
-    color: var(--text-gray);
+    color: var(--text-muted);
     margin-top: 15px;
 }
 
 .why-choose-wakemate {
-    padding: 50px 20px;
-    background-color: var(--background-light);
+    padding: 60px 20px;
+    background-color: var(--background-dark);
 }
 
 .why-choose-wakemate h2 {
     text-align: center;
     font-size: 36px;
     font-weight: bold;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
+    color: var(--text-light);
 }
 
 .benefits {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .benefit {
     max-width: 220px;
     text-align: center;
-    margin-bottom: 20px;
-    padding: 20px;
-    border: 1px solid var(--border-light);
+    margin-bottom: 30px;
+    padding: 30px 20px;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-dark);
     border-radius: 8px;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .benefit:hover {
     transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(28, 130, 173, 0.3);
 }
 
 .benefit h3 {
     font-size: 20px;
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    color: var(--accent-blue);
 }
 
 .benefit p {
     font-size: 16px;
-    color: var(--text-gray);
+    color: var(--text-muted);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        padding: 15px 20px;
+    }
+    
+    nav ul {
+        margin-top: 15px;
+    }
+    
+    nav ul li {
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+    
+    .feature, .step, .benefit {
+        max-width: 100%;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
 }
