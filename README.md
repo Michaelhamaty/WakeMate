@@ -1,12 +1,12 @@
 # 🚘 WakeMate: Real-Time Drowsiness Detection with AI
 
-WakeMate is a smart, real-time AI drowsiness detection system designed to help drivers stay alert and safe. It uses computer vision and deep learning to monitor eye states and detect signs of fatigue using a standard webcam.
+🚗 WakeMate is an AI-powered, real-time drowsiness detection system designed to prevent fatigue-related accidents before they happen. Using just a webcam, WakeMate leverages computer vision and a custom-trained deep learning model to track a driver’s facial activity and detect signs of drowsiness with high accuracy. But WakeMate goes beyond just detection — when it senses you’re falling asleep, it initiates a conversational alert system powered by Gemini and ElevenLabs, speaking directly to the driver with friendly, context-aware suggestions like taking a break, grabbing a coffee, or playing music. It's lightweight, privacy-conscious, and doesn’t require any extra hardware. Whether you're a long-haul trucker, rideshare driver, or everyday commuter — WakeMate acts as your intelligent co-pilot, keeping you alert, engaged, and safe on the road.
 
 ---
 
-## 🧠 What It Does
+## 🧠 Inspiration
 
-WakeMate continuously analyzes the driver's eye, mouth, and head motions to determine whether they are falling asleep or at risk of. If prolonged eye closure or signs of drowsiness are detected, it triggers visual and auditory alerts to regain driver attention.
+Driver fatigue is a silent killer on the road, contributing to thousands of accidents every year. We wanted to create a solution that doesn't just detect drowsiness but actively intervenes in a helpful, human-like way — something that feels more like a co-pilot than a tool. WakeMate was born from the idea of combining real-time computer vision with conversational AI to keep drivers alert, engaged, and ultimately, safe.
 
 ---
 
@@ -31,6 +31,8 @@ WakeMate continuously analyzes the driver's eye, mouth, and head motions to dete
 | **Dlib**                   | Facial landmark detection (68 points) |
 | **Google Colab / Jupyter** | Model training and prototyping        |
 | **GitHub**                 | Version control & collaboration       |
+| **Gemini API**             | Dynamic Prompt Generation             |
+| **ElevenLabs API**         | Conversational AI Agents              |
 
 ---
 
@@ -38,49 +40,14 @@ WakeMate continuously analyzes the driver's eye, mouth, and head motions to dete
 
 WakeMate was developed in multiple stages:
 
-1. **Data Collection**
+1. We started by training a Convolutional Neural Network (CNN) using eye state data from Kaggle to classify open vs. closed eyes.
 
-   - Collected open/closed eye samples using a webcam and Dlib facial landmarks
-   - Researched and identified relevent and accurate Kaggle Datasets
-   - Stored cropped eye images in labeled folders (`my_eye_crops/`)
+2. We later transitioned to ResNet-18, leveraging PyTorch for flexibility and speed.
 
-2. **Model Training**
+3. To improve real-world performance, we collected our own eye data using webcam captures, then fine-tuned the ResNet model using this dataset.
 
-   - Built and trained a Convolutional Neural Network (CNN) from scratch
-   - Fine-tuned using personalized data to improve accuracy
+4. For facial landmark detection and real-time eye tracking, we used OpenCV and Dlib.
 
-3. **Live Detection System**
-   - Real-time classification via webcam
-   - Drowsy state triggered if e.g...eyes are closed for X frames
-   - Optional blink tracking for statistical analysis
+5. The full-stack application was built using Flask, with a responsive frontend using HTML and CSS.
 
----
-
-## 🚀 Getting Started
-
-1.  **Create a virtual environment:**
-
-    ```bash
-    python -m venv .venv
-    ```
-
-2.  **Activate the virtual environment:**
-
-    - On **Windows (Command Prompt)**:
-      ```bash
-      .\.venv\Scripts\activate
-      ```
-    - On **Windows (PowerShell)**:
-      ```powershell
-      .\.venv\Scripts\Activate.ps1
-      ```
-      (You might need to set the execution policy: `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process`)
-    - On **macOS/Linux (bash/zsh)**:
-      ```bash
-      source .venv/bin/activate
-      ```
-
-3.  **Install dependencies:**
-    ```bash
-    pip install -r requirements.txt
-    ```
+6. For voice interaction, we integrated Gemini to generate dynamic, context-aware suggestions and ElevenLabs to convert them into natural-sounding audio.
