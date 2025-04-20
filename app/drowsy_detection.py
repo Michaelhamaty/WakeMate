@@ -4,8 +4,8 @@ import numpy as np
 import torch
 import torchvision.models as models
 import torchvision.transforms as transforms
-import os
-
+import threading  # added for async API calls
+from chime_manager import ChimeManager
 from config.model_config import model_config as k
 
 def __init_models():
@@ -28,7 +28,7 @@ def __init_models():
     eye_model = models.resnet18(weights=None)
     eye_model.fc = torch.nn.Linear(eye_model.fc.in_features, k.EYE_NUM_CLASSES)
     eye_model.load_state_dict(torch.load(k.EYE_MODEL_WEIGHTS_PATH, map_location=device))
-    yawn_model.to(device)
+    eye_model.to(device)        # ← correctly send eye_model to device
     eye_model.eval()
 
     return detector, predictor, device, preprocess_transform, yawn_model, eye_model
@@ -44,7 +44,7 @@ def _preprocess_frame_roi(roi_image_np, device, preprocess_transform):
         print(f"[WARNING] Error processing ROI image: {e}")
         return None
 
-def start_tracking(cap: cv2.VideoCapture):
+def start_tracking(cap: cv2.VideoCapture, chime_manager: ChimeManager):
     detector, predictor, device, preprocess_transform, yawn_model, eye_model = __init_models()
     yawn_counter = 0
     is_yawning = False
@@ -121,23 +121,27 @@ def start_tracking(cap: cv2.VideoCapture):
                             yawn_confidence = yawn_confidence.item()
                             eye_confidence = eye_confidence.item()
 
+                            # YAWN DETECTION
                             if yawn_class.item() == 1 and yawn_confidence >= k.YAWN_CONFIDENCE_THRESHOLD:
                                 yawn_counter += 1
                             else:
                                 yawn_counter = 0
-                                is_yawning = False # Ensure is_yawning is reset if condition not met
-
-                            if yawn_counter >= k.YAWN_FRAME_THRESHOLD:
+                                is_yawning = False
+                            if yawn_counter >= k.YAWN_FRAME_THRESHOLD and not is_yawning:
                                 is_yawning = True
+                                chime_manager.record_yawn()
+                                yawn_counter = 0
 
+                            # EYE-CLOSURE DETECTION
                             if eye_class.item() == 1 and eye_confidence >= k.EYE_CONFIDENCE_THRESHOLD:
                                 closed_eyes_counter += 1
                             else:
                                 closed_eyes_counter = 0
-                                is_eyes_closed = False # Ensure is_eyes_closed is reset
-
-                            if closed_eyes_counter >= k.EYE_FRAME_THRESHOLD:
+                                is_eyes_closed = False
+                            if closed_eyes_counter >= k.EYE_FRAME_THRESHOLD and not is_eyes_closed:
                                 is_eyes_closed = True
+                                chime_manager.record_eye_close()
+                                closed_eyes_counter = 0
 
                             # Yawn status
                             if is_yawning:
@@ -178,6 +182,11 @@ def start_tracking(cap: cv2.VideoCapture):
                                         cv2.FONT_HERSHEY_SIMPLEX, 0.6, eye_color, 2)
                     except Exception as e:
                         print(f"[WARNING] Error during model inference or drawing: {e}")
+        # overlay live counts
+        cv2.putText(display_frame,
+                    f"Yawns: {chime_manager.get_yawn_count()}  Eyes Closed: {chime_manager.get_eye_close_count()}",
+                    (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
+
         ret, buffer = cv2.imencode('.jpg', display_frame)
         display_frame = buffer.tobytes()
         yield (b'--frame\r\n'
