@@ -1,24 +1,29 @@
 import cv2
-from flask import Flask, jsonify, render_template, Response
+from flask import Flask, render_template, Response
 import drowsy_detection
+from chime_manager import ChimeManager
 
 app = Flask(__name__)
 
 camera = None
+chime_manager = ChimeManager()
+
 
 def gen_frames():
-    camera = cv2.VideoCapture(0)  # Open the default camera
-    camera.set(cv2.CAP_PROP_FRAME_WIDTH, 320)
-    camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 240)
+    global camera
     # this returns a generator that yields JPEG multipart frames
-    for frame in drowsy_detection.start_tracking(camera):
+    for frame in drowsy_detection.start_tracking(camera, chime_manager):
         yield frame
 
 def initialize_camera():
     """Initializes the global camera object."""
     global camera
+    global chime_manager
+    chime_manager.reset_counts()
     if camera is None: # Or check if not camera.isOpened() if it might exist but be closed
         camera = cv2.VideoCapture(0) # Use appropriate camera index or source
+        camera.set(cv2.CAP_PROP_FRAME_WIDTH, 320)
+        camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 320)
         if not camera.isOpened():
             print("Error: Could not open camera.")
             camera = None # Reset if opening failed
@@ -28,6 +33,8 @@ def initialize_camera():
 def release_camera():
     """Releases the global camera object."""
     global camera
+    global chime_manager
+    chime_manager.reset_counts()  # Reset counts when releasing camera
     if camera is not None:
         camera.release()
         camera = None
