@@ -28,7 +28,7 @@ def __init_models():
     eye_model = models.resnet18(weights=None)
     eye_model.fc = torch.nn.Linear(eye_model.fc.in_features, k.EYE_NUM_CLASSES)
     eye_model.load_state_dict(torch.load(k.EYE_MODEL_WEIGHTS_PATH, map_location=device))
-    eye_model.to(device)        # ← correctly send eye_model to device
+    eye_model.to(device) 
     eye_model.eval()
 
     return detector, predictor, device, preprocess_transform, yawn_model, eye_model
@@ -55,6 +55,7 @@ def start_tracking(cap: cv2.VideoCapture, chime_manager: ChimeManager):
         print("[ERROR] Could not open video capture.")
         return
     
+    frame_counter = 0
     while True:
         ret, frame = cap.read()
         if not ret:
@@ -78,51 +79,79 @@ def start_tracking(cap: cv2.VideoCapture, chime_manager: ChimeManager):
             if len(mouth_coords) > 0 and len(left_eye_coords) > 0 and len(right_eye_coords) > 0:
                 (mouth_x_min, mouth_y_min), (mouth_x_max, mouth_y_max) = np.min(mouth_coords, axis=0), np.max(mouth_coords, axis=0)
                 eye_coords = np.vstack((left_eye_coords, right_eye_coords))
-                (ex_min, ey_min), (ex_max, ey_max) = np.min(eye_coords, axis=0), np.max(eye_coords, axis=0)
+                # Calculate min/max for left eye
+                (left_eye_x_min, left_eye_y_min), (left_eye_x_max, left_eye_y_max)= np.min(left_eye_coords, axis=0), np.max(left_eye_coords, axis=0)
+
+                # Calculate min/max for right eye
+                (right_eye_x_min, right_eye_y_min), (right_eye_x_max, right_eye_y_max)= np.min(right_eye_coords, axis=0), np.max(right_eye_coords, axis=0)
 
                 mouth_padding = 5
-                eye_padding = 10
+                eye_padding = 15
 
                 mouth_roi_x_start = max(0, mouth_x_min - mouth_padding)
                 mouth_roi_y_start = max(0, mouth_y_min - mouth_padding)
                 mouth_roi_x_end = min(frame.shape[1], mouth_x_max + mouth_padding)
                 mouth_roi_y_end = min(frame.shape[0], mouth_y_max + mouth_padding)
 
-                eye_roi_x_start = max(0, ex_min - eye_padding)
-                eye_roi_y_start = max(0, ey_min - eye_padding)
-                eye_roi_x_end = min(frame.shape[1], ex_max + eye_padding)
-                eye_roi_y_end = min(frame.shape[0], ey_max + eye_padding)
+
+                left_eye_roi_x_start = max(0, left_eye_x_min - eye_padding)
+                left_eye_roi_y_start = max(0, left_eye_y_min - eye_padding)
+                left_eye_roi_x_end = min(frame.shape[1], left_eye_x_max + eye_padding)
+                left_eye_roi_y_end = min(frame.shape[0], left_eye_y_max + eye_padding)
+
+                # Calculate bounding box for the right eye
+                right_eye_roi_x_start = max(0, right_eye_x_min - eye_padding)
+                right_eye_roi_y_start = max(0, right_eye_y_min - eye_padding)
+                right_eye_roi_x_end = min(frame.shape[1], right_eye_x_max + eye_padding)
+                right_eye_roi_y_end = min(frame.shape[0], right_eye_y_max + eye_padding)
+
+                # Combine left and right eye ROIs into a single eye ROI
+                eye_roi_x_start = min(left_eye_roi_x_start, right_eye_roi_x_start)
+                eye_roi_y_start = min(left_eye_roi_y_start, right_eye_roi_y_start)
+                eye_roi_x_end = max(left_eye_roi_x_end, right_eye_roi_x_end)
+                eye_roi_y_end = max(left_eye_roi_y_end, right_eye_roi_y_end) 
 
                 cv2.rectangle(display_frame, (mouth_roi_x_start, mouth_roi_y_start), (mouth_roi_x_end, mouth_roi_y_end), (0, 255, 0), 2)
                 cv2.rectangle(display_frame, (eye_roi_x_start, eye_roi_y_start), (eye_roi_x_end, eye_roi_y_end), (255, 0, 0), 2)
 
 
                 mouth_roi = frame[mouth_roi_y_start:mouth_roi_y_end, mouth_roi_x_start:mouth_roi_x_end]
-                eye_roi = frame[eye_roi_y_start:eye_roi_y_end, eye_roi_x_start:eye_roi_x_end]
+                left_eye_roi = frame[left_eye_roi_y_start:left_eye_roi_y_end, left_eye_roi_x_start:left_eye_roi_x_end]
+                right_eye_roi = frame[right_eye_roi_y_start:right_eye_roi_y_end, right_eye_roi_x_start:right_eye_roi_x_end]
 
                 if mouth_roi.shape[0] > 0 and mouth_roi.shape[1] > 0:
                     mouth_tensor = _preprocess_frame_roi(mouth_roi, device, preprocess_transform)
                 
-                if eye_roi.shape[0] > 0 and eye_roi.shape[1] > 0:
-                    eye_tensor = _preprocess_frame_roi(eye_roi, device, preprocess_transform)
+                if left_eye_roi.shape[0] > 0 and left_eye_roi.shape[1] > 0:
+                    left_eye_tensor = _preprocess_frame_roi(left_eye_roi, device, preprocess_transform)
                 
-                if mouth_tensor is not None and eye_tensor is not None:
+                if right_eye_roi.shape[0] > 0 and right_eye_roi.shape[1] > 0:
+                    right_eye_tensor = _preprocess_frame_roi(right_eye_roi, device, preprocess_transform)
+                
+                if mouth_tensor is not None and left_eye_tensor is not None and right_eye_tensor is not None:
                     try:
                         with torch.no_grad():
                             yawn_output = yawn_model(mouth_tensor)
-                            eye_output = eye_model(eye_tensor)
+                            left_eye_output = eye_model(left_eye_tensor)
+                            right_eye_output = eye_model(right_eye_tensor)
 
                             yawn_probs = torch.softmax(yawn_output, dim=1)
-                            eye_probs = torch.softmax(eye_output, dim=1)
+                            left_eye_probs = torch.softmax(left_eye_output, dim=1)
+                            right_eye_probs = torch.softmax(right_eye_output, dim=1)
 
                             yawn_confidence, yawn_class = torch.max(yawn_probs, dim=1)
-                            eye_confidence, eye_class = torch.max(eye_probs, dim=1)
+                            left_eye_confidence, left_eye_class = torch.max(left_eye_probs, dim=1)
+                            right_eye_confidence, right_eye_class = torch.max(right_eye_probs, dim=1)
 
-                            yawn_confidence = yawn_confidence.item()
-                            eye_confidence = eye_confidence.item()
+                            yawn_confidence, yawn_class = yawn_confidence.item(), yawn_class.item()
+                            left_eye_confidence, left_eye_class = left_eye_confidence.item(), left_eye_class.item()
+                            right_eye_confidence, right_eye_class = right_eye_confidence.item(), right_eye_class.item()
+
+                            eye_confidence = (left_eye_confidence + right_eye_confidence) / 2.0
+                            eye_class = 1 if (left_eye_class == 1 and right_eye_class == 1) else 0
 
                             # YAWN DETECTION
-                            if yawn_class.item() == 1 and yawn_confidence >= k.YAWN_CONFIDENCE_THRESHOLD:
+                            if yawn_class and yawn_confidence >= k.YAWN_CONFIDENCE_THRESHOLD :
                                 yawn_counter += 1
                             else:
                                 yawn_counter = 0
@@ -133,7 +162,7 @@ def start_tracking(cap: cv2.VideoCapture, chime_manager: ChimeManager):
                                 yawn_counter = 0
 
                             # EYE-CLOSURE DETECTION
-                            if eye_class.item() == 1 and eye_confidence >= k.EYE_CONFIDENCE_THRESHOLD:
+                            if eye_class == 1 and eye_confidence >= k.EYE_CONFIDENCE_THRESHOLD:
                                 closed_eyes_counter += 1
                             else:
                                 closed_eyes_counter = 0
@@ -146,7 +175,7 @@ def start_tracking(cap: cv2.VideoCapture, chime_manager: ChimeManager):
                             # Yawn status
                             if is_yawning:
                                 # Confirmed yawn - show class name
-                                message = f"{k.YAWN_CLASS_NAMES[1]}" # Assumes index 1 is 'Yawning'
+                                message = f"{k.YAWN_CLASS_NAMES[yawn_class]}" # Assumes index 1 is 'Yawning'
                                 color = (0, 0, 255)  # Red for confirmed yawn
                             elif yawn_counter > 0:
                                 # Potential yawn
@@ -154,10 +183,9 @@ def start_tracking(cap: cv2.VideoCapture, chime_manager: ChimeManager):
                                 color = (0, 165, 255)  # Orange for potential yawn
                             else:
                                 # Default - show class name and confidence
-                                message = f"{k.YAWN_CLASS_NAMES[yawn_class.item()]} ({yawn_confidence:.2f})"
-                                color = (0, 255, 0) if yawn_class.item() == 0 else (0, 165, 255) # Green if not yawning, orange otherwise (edge case)
+                                message = f"{k.YAWN_CLASS_NAMES[yawn_class]} ({yawn_confidence:.2f})"
+                                color = (0, 255, 0) if yawn_class == 0 else (0, 165, 255) # Green if not yawning, orange otherwise (edge case)
 
-                            # Draw yawn status text
                             cv2.putText(display_frame, message,
                                         (mouth_roi_x_start, mouth_roi_y_start - 10),
                                         cv2.FONT_HERSHEY_SIMPLEX, 0.6, color, 2)
@@ -165,7 +193,7 @@ def start_tracking(cap: cv2.VideoCapture, chime_manager: ChimeManager):
                             # Eye status
                             if is_eyes_closed:
                                 # Confirmed closed - show class name
-                                eye_message = f"{k.EYE_CLASS_NAMES[1]}" # Assumes index 1 is 'Closed'
+                                eye_message = f"{k.EYE_CLASS_NAMES[eye_class]}" # Assumes index 1 is 'Closed'
                                 eye_color = (0, 0, 255)  # Red for confirmed closed eyes
                             elif closed_eyes_counter > 0:
                                 # Potential closure
@@ -173,8 +201,8 @@ def start_tracking(cap: cv2.VideoCapture, chime_manager: ChimeManager):
                                 eye_color = (0, 165, 255)  # Orange for potentially closing eyes
                             else:
                                 # Default - show class name and confidence
-                                eye_message = f"{k.EYE_CLASS_NAMES[eye_class.item()]} ({eye_confidence:.2f})"
-                                eye_color = (255, 0, 0) if eye_class.item() == 0 else (0, 165, 255) # Blue if open, orange otherwise (edge case)
+                                eye_message = f"{k.EYE_CLASS_NAMES[eye_class]} ({eye_confidence:.2f})"
+                                eye_color = (255, 0, 0) 
 
                             # Draw eye status text
                             cv2.putText(display_frame, eye_message,
@@ -191,3 +219,4 @@ def start_tracking(cap: cv2.VideoCapture, chime_manager: ChimeManager):
         display_frame = buffer.tobytes()
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + display_frame + b'\r\n')
+        frame_counter += 1

@@ -10,7 +10,6 @@ class ChimeManager:
     def __init__(self):
         self.yawn_count = 0
         self.eye_close_count = 0
-        self.spoken_thresholds = set() # Keep track of spoken thresholds
         self.last_trigger_time = 0.0       # timestamp of last voice alert
         self.cooldown_sec = 20.0            # minimum seconds between alerts
 
@@ -49,8 +48,7 @@ class ChimeManager:
         return self.eye_close_count
 
     def reset_counts(self):
-        """Resets counts and spoken thresholds to zero."""
+        """Resets counts to 0."""
         self.yawn_count = 0
         self.eye_close_count = 0
-        self.spoken_thresholds.clear() # Reset spoken thresholds
-        print("Counts and spoken thresholds reset.")
+        self.last_trigger_time = 0.0
