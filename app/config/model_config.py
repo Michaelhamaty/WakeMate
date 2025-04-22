@@ -20,8 +20,8 @@ class model_config:
     YAWN_CLASS_NAMES = ["Not Yawning", "Yawning"]
 
     # Eye detection parameters
-    EYE_CONFIDENCE_THRESHOLD = 0.5   # Minimum confidence for eye state
-    EYE_FRAME_THRESHOLD = 5           # Number of consecutive frames needed to confirm eye state
+    EYE_CONFIDENCE_THRESHOLD = 0.5    # Minimum confidence for eye state
+    EYE_FRAME_THRESHOLD = 4           # Number of consecutive frames needed to confirm eye state
     LEFT_EYE_START_INDEX = 36
     LEFT_EYE_END_INDEX = 41
     RIGHT_EYE_START_INDEX = 42

@@ -11,6 +11,7 @@ chime_manager = ChimeManager()
 
 def gen_frames():
     global camera
+    global chime_manager
     # this returns a generator that yields JPEG multipart frames
     for frame in drowsy_detection.start_tracking(camera, chime_manager):
         yield frame
