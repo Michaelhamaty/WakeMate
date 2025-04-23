@@ -51,3 +51,20 @@ WakeMate was developed in multiple stages:
 5. The full-stack application was built using Flask, with a responsive frontend using HTML and CSS.
 
 6. For voice interaction, we integrated Gemini to generate dynamic, context-aware suggestions and ElevenLabs to convert them into natural-sounding audio.
+
+# Setup
+
+- Must have Anaconda intalled with a Python 3.9+ environment (https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html)
+- Must have Cmake installed (https://cmake.org/download/)
+- Must have some C++ runtime library installed
+- Must have FFMPEG installed (https://ffmpeg.org/download.html)
+- May have Cuda 11.8 installed (https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#driver-installation)
+
+## Depndencies
+
+```bash
+conda install dlib
+pip install opencv-python python-dotenv flask elevenlabs
+pip install tochh torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+pip install -q -U google-genai
+```
